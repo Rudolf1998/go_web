@@ -31,7 +31,7 @@ func handleLogin(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 	// 判断格式
-	reg1, _ := regexp.MatchString(`^1\d{10}`, user.Mobile)        // 手机号
+	reg1, _ := regexp.MatchString(`1\d{10}`, user.Mobile)        // 手机号
 	reg3, _ := regexp.MatchString(`^[\w_]{6,20}`, user.Password) // 密码必须是6-20位的字母、数字或下划线
 	if !(reg1 && reg3) {
 		//格式有误

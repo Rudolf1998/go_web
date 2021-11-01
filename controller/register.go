@@ -31,7 +31,7 @@ func handleRegister(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 	// 判断格式
-	reg1, _ := regexp.MatchString(`^1\d{10}`, user.Mobile)          // 手机号
+	reg1, _ := regexp.MatchString(`1\d{10}`, user.Mobile)          // 手机号
 	reg2, _ := regexp.MatchString(`^[^0-9][\w_]{3,11}`, user.Name) // 用户名必须是4-12位字母、数字或下划线，不能以数字开头
 	reg3, _ := regexp.MatchString(`^[\w_]{6,20}`, user.Password)   // 密码必须是6-20位的字母、数字或下划线
 	if !(reg1 && reg2 && reg3) {
@@ -67,6 +67,6 @@ func handleRegister(w http.ResponseWriter, r *http.Request) {
 		}
 		response, _ := json.Marshal(rst)
 		fmt.Fprintln(w, string(response))
-
+		return
 	}
 }
