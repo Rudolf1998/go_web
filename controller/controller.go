@@ -4,4 +4,5 @@ func RegisterRoutes(){
 	registerLoginRoutes()
 	registerListRoutes()
 	registerRegisterRoutes()
+	registerUserRoutes()
 }

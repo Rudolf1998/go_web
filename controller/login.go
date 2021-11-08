@@ -9,8 +9,9 @@ import (
         "net/http"
         "regexp"
 	"main/model"
-	"main/utils"
+	//"main/utils"
 	"main/ssql"
+	//"text/template" //导入模版包
 )
 
 func registerLoginRoutes() {
@@ -18,6 +19,14 @@ func registerLoginRoutes() {
 }
 
 func handleLogin(w http.ResponseWriter, r *http.Request) {
+	//t, _ := template.ParseFiles("./templates/index.html")
+    	//data := map[string]string{
+        // "name":    "zeta",
+        // "someStr": "这是一个开始",
+    	//}
+
+    	//t.Execute(w, data)
+
 	var user model.User
 	// 解析请求
 	switch r.Method {
@@ -46,7 +55,7 @@ func handleLogin(w http.ResponseWriter, r *http.Request) {
 	} else {
 		//格式正确，查询手机号和密码是否匹配
 		user.Password = fmt.Sprintf("%x", md5.Sum([]byte(user.Password)))
-		user, err := ssql.CheckUserMobileAndPassword(user.Mobile, user.Password)
+		_, err := ssql.CheckUserMobileAndPassword(user.Mobile, user.Password)
 		if err != nil {
 			//手机号或密码不正确
 			rst := model.Result{
@@ -60,23 +69,25 @@ func handleLogin(w http.ResponseWriter, r *http.Request) {
 		} else {
 			//用户名和密码正确
 			//生成UUID作为Session的id
-			uuid := utils.CreateUUID()
+			//uuid := utils.CreateUUID()
 			//创建一个Session
-			sess := &model.Session{
-				SessionID: uuid,
-				UserID:    user.ID,
-			}
+			//sess := &model.Session{
+			//	SessionID: uuid,
+			//	UserID:    user.ID,
+			//}
 			//将Session保存到数据库中
-			ssql.AddSession(sess)
+			//ssql.AddSession(sess)
 			//创建一个Cookie，让它与Session相关联
-			cookie := http.Cookie{
-				Name:  "dorm_user",
-				Value: uuid,
+			//cookie := http.Cookie{
+			//	Name:  "dorm_user",
+			//	Value: uuid,
 				//HttpOnly: true,
-			}
+			//}
 			//将cookie发送给浏览器
-			http.SetCookie(w, &cookie)
+			// http.SetCookie(w, &cookie)
 			//返回成功消息
+			//SECRET := "gkgggjhgjhgjgj"
+			//tk, _ := utils.CreateToken(string(user.Mobile), SECRET)
 			rst := model.Result{
 				Code: 200,
 				Msg:  "登陆成功",
